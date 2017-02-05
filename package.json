@@ -1,0 +1,25 @@
+{
+  "name": "lanthing-ticket",
+  "version": "0.0.1",
+  "description": "Smart Contract for Ticketing System",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "mocha-logger": "^1.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "truffle test"
+  },
+  "keywords": [
+    "smart",
+    "contract",
+    "solidity",
+    "truffle",
+    "ticket"
+  ],
+  "author": "Surya Handika Putratama <ubunteroz@gmail.com>",
+  "license": "ISC"
+}
