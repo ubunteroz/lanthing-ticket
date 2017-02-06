@@ -21,8 +21,8 @@ contract LanthingTicket1 is StandardToken {
     // Events
     event userRegistered(address indexed userAddr, string userData);
     event userDeleted(address indexed userAddr);
-    event balanceAdded(address indexed owner, uint amount, uint balance);
-    event balanceRemoved(address indexed owner, uint amount, uint balance);
+    event balanceAdded(address indexed user, uint amount, uint balance);
+    event balanceRemoved(address indexed user, uint amount, uint balance);
 
     // Constructor
     function LanthingTicket1() {
