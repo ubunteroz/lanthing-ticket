@@ -12,7 +12,6 @@ import './SafeMath.sol';
  */
 contract StandardToken is ERC20Basic, SafeMath {
     mapping(address => uint) balances;
-    mapping (address => mapping (address => uint)) allowed;
 
     function transfer(address _to, uint _value) {
         balances[msg.sender] = safeSub(balances[msg.sender], _value);
