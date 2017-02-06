@@ -21,6 +21,16 @@ contract('LanthingTicket1', function(accounts) {
 
     var initialSupply = 0;
 
+    // NOTE: This test output is only valid on TestRPC
+    it('Check contract deployment', function(done) {
+        var blockNum = LanthingTicket1.web3.eth.blockNumber;
+        var gas = LanthingTicket1.web3.eth.getBlock(blockNum).gasUsed;
+
+        mlog.log(gasUsed('contract deployment', gas));
+
+        done();
+    });
+
     it('Check initial values', function(done) {
         var ticket;
 
