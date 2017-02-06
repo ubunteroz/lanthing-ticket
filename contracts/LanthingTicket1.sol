@@ -13,14 +13,14 @@ contract LanthingTicket1 is StandardToken {
     address public mainAccount = msg.sender;
     mapping (address => bool) organizers;
 
-    // Vendors
-    uint public numVendors = 0;
-    mapping (address => bool) vendors;
-    mapping (address => string) vendorData;
+    // Users
+    uint public numUsers = 0;
+    mapping (address => bool) users;
+    mapping (address => string) userData;
 
     // Events
-    event vendorRegistered(address indexed vendorAddr, string vendorData);
-    event vendorDeleted(address indexed vendorAddr);
+    event userRegistered(address indexed userAddr, string userData);
+    event userDeleted(address indexed userAddr);
     event balanceAdded(address indexed owner, uint amount, uint balance);
     event balanceRemoved(address indexed owner, uint amount, uint balance);
 
@@ -40,24 +40,41 @@ contract LanthingTicket1 is StandardToken {
         }
     }
 
-    function registerVendor(string _data) returns (bool success) {
-        if (!vendors[msg.sender]) {
-            vendors[msg.sender] = true;
-            vendorData[msg.sender] = _data;
-            numVendors = numVendors + 1;
-            vendorRegistered(msg.sender, _data);
+    function addOrganizer(address _account) returns (bool success) {
+        if (organizers[msg.sender]) {
+            organizers[_account] = true;
             return true;
         } else {
             return false;
         }
     }
 
-    function deleteVendor(address _vendorAddr) returns (bool success) {
-        if (organizers[msg.sender] && vendors[_vendorAddr]) {
-            delete vendors[_vendorAddr];
-            delete vendorData[_vendorAddr];
-            numVendors = numVendors - 1;
-            vendorDeleted(_vendorAddr);
+    function deleteOrganizer(address _account) returns (bool success) {
+        if (organizers[msg.sender] && organizers[_account] && _account != msg.sender) {
+            delete organizers[_account];
+        } else {
+            return false;
+        }
+    }
+
+    function registerUser(string _data) returns (bool success) {
+        if (!users[msg.sender]) {
+            users[msg.sender] = true;
+            userData[msg.sender] = _data;
+            numUsers = numUsers + 1;
+            userRegistered(msg.sender, _data);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deleteUser(address _userAddr) returns (bool success) {
+        if (organizers[msg.sender] && users[_userAddr]) {
+            delete users[_userAddr];
+            delete userData[_userAddr];
+            numUsers = numUsers - 1;
+            userDeleted(_userAddr);
             return true;
         } else {
             return false;

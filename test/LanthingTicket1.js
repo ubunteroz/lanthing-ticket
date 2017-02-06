@@ -31,11 +31,11 @@ contract('LanthingTicket1', function(accounts) {
             });
         }).then(function(mainAccount) {
             assert.equal(mainAccount, account1, 'mainAccount does not match!');
-            return ticket.numVendors.call({
+            return ticket.numUsers.call({
                 from: account1
             });
-        }).then(function(numVendors) {
-            assert.equal(numVendors.toNumber(), 0, 'Initial numVendors must be equal to 0!');
+        }).then(function(numUsers) {
+            assert.equal(numUsers.toNumber(), 0, 'Initial numUsers must be equal to 0!');
             return ticket.totalSupply.call({
                 from: account1
             });
@@ -50,63 +50,63 @@ contract('LanthingTicket1', function(accounts) {
         }).catch(done);
     });
 
-    it('Register account2 and account3 as vendors', function(done) {
+    it('Register account2 and account3 as users', function(done) {
         var ticket;
 
         LanthingTicket1.deployed().then(function(meta) {
             ticket = meta;
-            return ticket.registerVendor('VENDOR #2', {
+            return ticket.registerUser('USER #2', {
                 from: account2
             });
         }).then(function(tx) {
             mlog.log(eventFired(tx.logs));
-            mlog.log(gasUsed('registerVendor from account2', tx.receipt.gasUsed));
-            return ticket.numVendors.call({
+            mlog.log(gasUsed('registerUser from account2', tx.receipt.gasUsed));
+            return ticket.numUsers.call({
                 from: account1
             });
-        }).then(function(numVendors) {
-            assert.equal(numVendors.toNumber(), 1, 'numVendors must be equal to 1!');
-            return ticket.registerVendor.call('VENDOR', {
+        }).then(function(numUsers) {
+            assert.equal(numUsers.toNumber(), 1, 'numUsers must be equal to 1!');
+            return ticket.registerUser.call('USER', {
                 from: account2
             });
         }).then(function(status) {
-            assert.equal(status, false, 'vendor recreation should not possible!');
-            return ticket.registerVendor('VENDOR #3', {
+            assert.equal(status, false, 'user reregistration should not possible!');
+            return ticket.registerUser('USER #3', {
                 from: account3
             });
         }).then(function(tx) {
             mlog.log(eventFired(tx.logs));
-            mlog.log(gasUsed('registerVendor from account3', tx.receipt.gasUsed));
-            return ticket.numVendors.call({
+            mlog.log(gasUsed('registerUser from account3', tx.receipt.gasUsed));
+            return ticket.numUsers.call({
                 from: account1
             });
-        }).then(function(numVendors) {
-            assert.equal(numVendors.toNumber(), 2, 'numVendors must be equal to 1!');
+        }).then(function(numUsers) {
+            assert.equal(numUsers.toNumber(), 2, 'numUsers must be equal to 1!');
             done();
         }).catch(done);
     });
 
-    it('Delete an account from vendor list', function(done) {
+    it('Delete an account from user list', function(done) {
         var ticket;
 
         LanthingTicket1.deployed().then(function(meta) {
             ticket = meta;
-            return ticket.deleteVendor(account3, {
+            return ticket.deleteUser(account3, {
                 from: account1
             });
         }).then(function(tx) {
             mlog.log(eventFired(tx.logs));
-            mlog.log(gasUsed('deleteVendor account3 from account1', tx.receipt.gasUsed));
-            return ticket.numVendors.call({
+            mlog.log(gasUsed('deleteUser account3 from account1', tx.receipt.gasUsed));
+            return ticket.numUsers.call({
                 from: account1
             });
-        }).then(function(numVendors) {
-            assert.equal(numVendors.toNumber(), 1, 'remaining vendor must be equal to 1!');
-            return ticket.deleteVendor.call(account3, {
+        }).then(function(numUsers) {
+            assert.equal(numUsers.toNumber(), 1, 'remaining user must be equal to 1!');
+            return ticket.deleteUser.call(account3, {
                 from: account1
             });
         }).then(function(status) {
-            assert.equal(status, false, 'deleting non-existed vendor should not be possible!');
+            assert.equal(status, false, 'deleting non-existed user should not be possible!');
             done();
         }).catch(done);
     });
