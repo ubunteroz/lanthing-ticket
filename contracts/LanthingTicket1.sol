@@ -65,9 +65,9 @@ contract LanthingTicket1 is StandardToken {
     }
 
     function addBalances(address _owner, uint _amount) returns (bool success) {
-        if (organizers[msg.sender] && _amount > 0) {
-            balances[_owner] = balances[_owner] + _amount;
-            totalSupply = totalSupply + _amount;
+        if (organizers[msg.sender]) {
+            balances[_owner] = safeAdd(balances[_owner], _amount);
+            totalSupply = safeAdd(totalSupply, _amount);
             balanceAdded(_owner, _amount, balances[_owner]);
             return true;
         } else {
@@ -76,9 +76,9 @@ contract LanthingTicket1 is StandardToken {
     }
 
     function removeBalances(address _owner, uint _amount) returns (bool success) {
-        if (organizers[msg.sender] && _amount > 0 && balances[_owner] >= _amount) {
-            balances[_owner] = balances[_owner] - _amount;
-            totalSupply = totalSupply - _amount;
+        if (organizers[msg.sender]) {
+            balances[_owner] = safeSub(balances[_owner], _amount);
+            totalSupply = safeSub(totalSupply, _amount);
             balanceRemoved(_owner, _amount, balances[_owner]);
             return true;
         } else {
